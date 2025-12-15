@@ -1,0 +1,7 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+node_modules
+package-lock.json
+node/node_modules
+node/package-lock.json
+node/data/saved_games/
