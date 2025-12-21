@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark, faPaperPlane, faArrowsRotate, faDeleteLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
-export function InputIcon({ icon, onClick }) {
+export function InputIcon({ icon, onClick, disabled }) {
     const getIcon = () => {
         switch (icon) {
             case "done":
@@ -46,6 +46,7 @@ export function InputIcon({ icon, onClick }) {
             className='user-input-icon-button'
             onClick={onClick}
             title={getTooltip()}
+            disabled={disabled}
         >
             <FontAwesomeIcon icon={getIcon()} size='2x' />
         </button>

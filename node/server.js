@@ -6,7 +6,7 @@ import registerChat from "./routes/chat.js";
 import registerPlotPoints from "./routes/plotPoints.js";
 import registerQuests from "./routes/quests.js";
 import registerGameState from "./routes/gameState.js";
-import registerHistory from "./routes/history.js";
+import registerProgress from "./routes/progress.js";
 
 const app = express();
 app.use(cors());
@@ -17,7 +17,7 @@ registerChat(app);
 registerPlotPoints(app);
 registerQuests(app);
 registerGameState(app);
-registerHistory(app);
+registerProgress(app);
 
 
 app.listen(3001, () => console.log("Node server listening on port http://localhost:3001"));

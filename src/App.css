@@ -112,7 +112,7 @@ body {
 
 .user-input {
     max-height: 180px;
-    border: none;
+    box-sizing: border-box;
 }
 
 .canvas-input-icons, .user-input-icons {
@@ -140,6 +140,12 @@ body {
     background-color: #373737;
 }
 
+.user-input-icon-button:disabled {
+    background-color: transparent;
+    color: #484848;
+    cursor: not-allowed;
+}
+
 .notification-toast {
     position: fixed;
     bottom: 20px;
@@ -152,6 +158,11 @@ body {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     animation: slideIn 0.3s ease-out;
 }
-.notification-toast.success { background-color: #2e7d32; }
 
-.notification-toast.error { background-color: #d32f2f; }
+.notification-toast.success {
+    background-color: #2e7d32;
+}
+
+.notification-toast.error {
+    background-color: #d32f2f;
+}

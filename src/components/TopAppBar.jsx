@@ -1,6 +1,6 @@
-import IconButton from "./IconButton";
+import { IconButton} from "./IconButton";
 
-export default function TopAppBar(saveHistory) {
+export default function TopAppBar({ saveHistory }) {
   return (
     <div className='top-app-bar'>
       <div className="top-app-bar-title">AI Game Master</div>

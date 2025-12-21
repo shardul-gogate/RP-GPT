@@ -19,13 +19,29 @@ export default function register(app) {
 
       if (!r.ok) {
         const errText = await r.text();
-        return res.status(502).json({ error: "Ollama error", details: errText });
+        return res
+          .status(502)
+          .json({
+            ok: false,
+            message: "Ollama error",
+            error: errText,
+          });
       }
 
       const data = await r.json();
-      return res.json({ ok: true, message: data.response });
+      return res.json({
+        ok: true,
+        message: "Chat successful",
+        data: data.response,
+      });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res
+        .status(500)
+        .json({
+          ok: false,
+          message: "An unexpected error occurred",
+          error: err.message,
+        });
     }
   });
 }

@@ -40,10 +40,11 @@ const api = {
 const handleResponse = async (response) => {
   const data = await response.json();
   if (response.ok) {
+    console.log(data)
     if (data.message) {
       toast.success(data.message);
     }
-    return data;
+    return data.data;
   } else {
     const error = (data && data.message) || response.statusText;
     toast.error(error);
