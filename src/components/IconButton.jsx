@@ -19,10 +19,29 @@ export default function IconButton({ icon, onClick }) {
     }
   };
 
+  const getTooltip = () => {
+    switch (icon) {
+      case "settings":
+        return "Settings";
+      case "quests":
+        return "Quests";
+      case "plotpoints":
+        return "Plot Points";
+      case "save":
+        return "Save";
+      case "load":
+        return "Load";
+      default:
+        return null;
+    }
+  };
+
+
   return (
     <button
       className='top-app-bar-icon-button'
       onClick={onClick}
+      title={getTooltip()}
     >
       <FontAwesomeIcon icon={getIcon()} size='2x' />
     </button>

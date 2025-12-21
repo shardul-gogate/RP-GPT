@@ -1,47 +1,46 @@
 import { useState } from "react";
+import EditCanvasMessage from "./EditCanvasMessage";
 
 export default function Canvas({ messages, onEditMessage }) {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editValue, setEditValue] = useState("");
 
-  const handleStartEdit = (idx, text) => {
-    setEditingIndex(idx);
+  const handleStartEdit = (index, text) => {
+    setEditingIndex(index);
     setEditValue(text);
   };
 
-  const handleBlur = (idx) => {
-    if (editingIndex === idx) {
-      onEditMessage(idx, editValue);
-      setEditingIndex(null);
-    }
+  const handleConfirmEdit = (newValue) => {
+    onEditMessage(editingIndex, newValue);
+    setEditingIndex(null);
+    setEditValue("");
+  };
+
+  const handleDiscardEdit = () => {
+    setEditingIndex(null);
+    setEditValue("");
   };
 
   return (
     <div className="canvas">
-      {messages.map((msg, idx) => (
-        <div
-          key={idx}
-          style={{ marginBottom: 12, cursor: "pointer" }}
-          onClick={() => handleStartEdit(idx, msg)}
-        >
-          {editingIndex === idx ? (
-            <textarea
-              rows={10}
-              value={editValue}
-              onChange={(e) => setEditValue(e.target.value)}
-              onBlur={() => handleBlur(idx)}
-              autoFocus
-              style={{
-                width: "100%",
-                padding: "4px 8px",
-                fontFamily: "'Georgia', serif",
-                fontSize: "14px",
-              }}
-            />
-          ) : (
-            msg
-          )}
-        </div>
+      {messages.map((msg, index) => (
+        editingIndex === index ? (
+          <EditCanvasMessage
+            key={index}
+            value={editValue}
+            onConfirmEdit={handleConfirmEdit}
+            onDiscard={handleDiscardEdit}
+            onChange={setEditValue}
+          />
+        ) : (
+          <div
+            className="canvas-message"
+            key={index}
+            onClick={() => handleStartEdit(index, msg)}
+          >
+            {msg}
+          </div>
+        )
       ))}
     </div>
   );
