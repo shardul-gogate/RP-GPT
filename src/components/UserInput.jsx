@@ -19,6 +19,7 @@ export default function UserInput({ value, onChange, placeholder, onSend, loadin
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
+        disabled={loading}
       />
       <div className="user-input-icons">
         <InputIcon icon="send" onClick={onSend} disabled={loading}/>

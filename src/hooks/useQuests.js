@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { ApiPaths } from "../utils/constants";
+import api from "../utils/api";
 
 export function useQuests() {
   const [quests, setQuests] = useState([]);
 
   useEffect(() => {
-    fetch(ApiPaths.Api_Quests)
-      .then((res) => res.json())
-      .then((data) => setQuests(data))
-      .catch((err) => console.error("Error loading quests:", err));
+    api.get(ApiPaths.Api_Quests)
+      .then((data) => setQuests(data));
   }, []);
 
   const addNewQuest = () => {
@@ -23,11 +22,7 @@ export function useQuests() {
     newQuests[index] = updatedQuest;
     setQuests(newQuests);
 
-    fetch(ApiPaths.Api_Quests, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newQuests),
-    }).catch(err => console.error("Error saving quests:", err));
+    api.post(ApiPaths.Api_Quests, newQuests);
   };
 
   return { quests, addNewQuest, updateQuest };

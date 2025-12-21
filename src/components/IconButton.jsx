@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faScroll, faBook, faFloppyDisk, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faScroll, faBook, faFloppyDisk, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 export default function IconButton({ icon, onClick }) {
   const getIcon = () => {
@@ -10,10 +10,12 @@ export default function IconButton({ icon, onClick }) {
         return faScroll;
       case "plotpoints":
         return faBook;
-      case "save":
+      case "quicksave":
         return faFloppyDisk;
-      case "load":
+      case "fullsave":
         return faDownload;
+      case "load":
+        return faUpload;
       default:
         return null;
     }
@@ -27,8 +29,10 @@ export default function IconButton({ icon, onClick }) {
         return "Quests";
       case "plotpoints":
         return "Plot Points";
-      case "save":
-        return "Save";
+      case "quicksave":
+        return "Quick Save";
+      case "fullsave":
+        return "Full Save";
       case "load":
         return "Load";
       default:

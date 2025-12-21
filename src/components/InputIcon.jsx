@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark, faPaperPlane, faArrowsRotate, faDeleteLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
-export const InputIcon = ({ icon, onClick }) => {
+export function InputIcon({ icon, onClick }) {
     const getIcon = () => {
         switch (icon) {
             case "done":
@@ -37,17 +37,17 @@ export const InputIcon = ({ icon, onClick }) => {
                 return "Continue Generation";
             default:
                 return null;
-        
+
         };
     };
 
     return (
-    <button
-      className='user-input-icon-button'
-      onClick={onClick}
-      title={getTooltip()}
-    >
-      <FontAwesomeIcon icon={getIcon()} size='2x'/>
-    </button>
-  );
+        <button
+            className='user-input-icon-button'
+            onClick={onClick}
+            title={getTooltip()}
+        >
+            <FontAwesomeIcon icon={getIcon()} size='2x' />
+        </button>
+    );
 }

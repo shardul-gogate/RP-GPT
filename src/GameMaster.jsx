@@ -1,7 +1,7 @@
 import { useState } from "react";
 import UserInput from "./components/UserInput";
 import Canvas from "./components/Canvas";
-import { useChat } from "./hooks/useChat";
+import { useGameProgress } from "./hooks/useGameProgress";
 import { useGameState } from "./hooks/useGameState";
 import { useQuests } from "./hooks/useQuests";
 import { usePlotPoints } from "./hooks/usePlotPoints";
@@ -10,7 +10,7 @@ import TopAppBar from "./components/TopAppBar";
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
 
-  const { gameState, updateGameState } = useGameState();
+  const { gameState } = useGameState();
   const { plotPoints } = usePlotPoints();
   const { quests } = useQuests();
   const {
@@ -20,8 +20,9 @@ export default function GameMaster() {
     eraseLastMessage,
     retry,
     continueChat,
-    send
-  } = useChat(quests, plotPoints, gameState);
+    send,
+    saveHistory
+  } = useGameProgress(quests, plotPoints, gameState);
 
   const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
@@ -32,7 +33,7 @@ export default function GameMaster() {
 
   return (
     <div className="game-master">
-        <TopAppBar/>
+        <TopAppBar saveHistory={saveHistory} />
         <Canvas
           messages={messages}
           onEditMessage={(index, newValue) => {
