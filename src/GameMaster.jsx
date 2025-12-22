@@ -24,9 +24,9 @@ export default function GameMaster() {
     send,
     saveHistory
   } = useGameProgress(quests, plotPoints, gameState);
-  const { saveFullGame } = useFullSave();
+  const { saveFullGame, loadGame } = useFullSave();
 
-    const handleSendPrompt = () => {
+  const handleSendPrompt = () => {
     const trimmedPrompt = prompt.trim();
     if (!trimmedPrompt) return;
     send(trimmedPrompt);
@@ -38,6 +38,7 @@ export default function GameMaster() {
         <TopAppBar
           saveHistory={saveHistory}
           saveFullGame={saveFullGame}
+          loadGame={loadGame}
         />
         <Canvas
           messages={messages}

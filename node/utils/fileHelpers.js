@@ -1,5 +1,9 @@
 import fs from "fs";
 
+export const getGameFilesToCopy = () => {
+    return ["gamestate.json", "plotpoints.json", "progress.json", "quests.json"];
+};
+
 export const readFile = async (filePath) => {
     try {
         const data = await fs.promises.readFile(filePath, 'utf8');

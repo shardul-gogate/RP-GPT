@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { SmallModalTypEnum } from '../utils/enums';
 
 export default function SmallModal({ smallModalTypeEnum, onConfirm, onCancel }) {
-  const [saveLoadName, setSaveLoadName] = useState('');
+  const [gameName, setGameName] = useState('');
   const modalTitle = smallModalTypeEnum === SmallModalTypEnum.SAVE ? 'Save Game' : 'Load Game';
   const buttonTitle = smallModalTypeEnum === SmallModalTypEnum.SAVE ? 'Save' : 'Load';
 
   const handleSave = () => {
-    onConfirm(saveLoadName);
+    onConfirm(gameName);
   };
 
   return (
@@ -16,8 +16,8 @@ export default function SmallModal({ smallModalTypeEnum, onConfirm, onCancel }) 
         <h2>{modalTitle}</h2>
         <input
           type="text"
-          value={saveLoadName}
-          onChange={(e) => setSaveLoadName(e.target.value)}
+          value={gameName}
+          onChange={(e) => setGameName(e.target.value)}
           placeholder="Enter the game name"
         />
         <div className="small-modal-buttons">

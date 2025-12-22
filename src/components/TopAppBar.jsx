@@ -3,12 +3,16 @@ import { IconButton } from "./IconButton";
 import SmallModal from "./SmallModal";
 import { IconButtonEnum, SmallModalTypEnum } from "../utils/enums";
 
-export default function TopAppBar({ saveHistory, saveFullGame }) {
+export default function TopAppBar({ saveHistory, saveFullGame, loadGame }) {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
   const [smallModalTypeEnum, setSmallModalTypeEnum] = useState(null);
 
-  const handleSave = (saveName) => {
-    saveFullGame(saveName);
+  const handleSave = (gameName) => {
+    if (smallModalTypeEnum === SmallModalTypEnum.SAVE) {
+      saveFullGame(gameName);
+    } else {
+      loadGame(gameName);
+    }
     setIsSmallModalOpen(false);
   };
 
