@@ -15,19 +15,13 @@ export function useOllama() {
   }, []);
 
   async function generate(prompt, settings, onCompletion) {
-    const { ollamaModel, systemInstructions } = settings;
+    const { ollamaModel, systemInstructions, options } = settings;
     setLoading(true);
     const payload = {
       prompt: prompt,
       model: ollamaModel,
       system: systemInstructions,
-      options: {
-        temperature: 0.85,
-        top_p: 0.85,
-        num_predict: 512,
-        repeat_penalty: 1.15,
-        num_ctx: 8192
-      }
+      options: options
     };
     try {
       const data = await api.post(ApiPaths.Api_Ollama_Generate, payload);

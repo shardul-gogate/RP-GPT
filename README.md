@@ -40,9 +40,14 @@ You can add **triggers** to each plot point. When a trigger word or phrase appea
     ```
 3.  **Install Dependencies:** Navigate to the project directory and run:
     ```bash
-    cd ai-game-master
     npm install
+    ```
+    Navigate to node directory
+    ```bash
     cd node
+    ```
+    and run
+    ```bash
     npm install
     ```
 4.  **Start the Application:**

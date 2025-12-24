@@ -18,7 +18,7 @@ trap cleanup EXIT
 
 # Start the backend server in the background
 echo "Starting backend server..."
-cd node
+cd ../node
 node server.js &
 cd ..
 

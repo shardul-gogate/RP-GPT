@@ -432,21 +432,36 @@ body {
     width: 100%;
 }
 
-.settings-ollama-models {
+.settings-ollama {
     display: flex;
     gap: 18px;
     justify-content: center;
+    align-self: center;
+    width: 50%;
 }
 
-.settings-ollama-models span {
+.settings-ollama span {
     font-size: 24px;
+    text-align: end;
+    flex: 1;
 }
 
-.settings-ollama-models select {
+.settings-ollama select {
+    flex: 1;
     color: var(--white);
     background-color: var(--hover-background-color);
     font-family: "Grenze";
     font-size: 18px;
+}
+
+.settings-ollama input {
+    flex: 1;
+    font-size: 18px;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid var(--primary-accent-color);
+    background-color: var(--hover-background-color);
+    color: var(--text-color);
 }
 
 .settings-system-instructions {
