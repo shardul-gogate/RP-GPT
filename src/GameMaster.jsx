@@ -32,7 +32,7 @@ export default function GameMaster() {
   const { saveFullGame, loadGame } = useFullSave();
   const { saveHistory } = useGameProgress();
   const { models, generate, loading } = useOllama();
-  const { settings, saveSettings } = useSettings();
+  const { settings, saveSettings } = useSettings(models);
 
   const {
     isSmallModalOpen,
