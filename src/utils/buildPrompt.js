@@ -2,7 +2,7 @@ import { QuestStatusEnum } from "./enums";
 
 export function buildAIPrompt(messages, quests, plotPoints, gameState) {
   const contextMessages = messages
-    .slice(-15, -1) // take last 15 messages excluding the latest input
+    .slice(-20, -1) // take last 15 messages excluding the latest input
     .map(message => message.trim())
     .join(" ");
 

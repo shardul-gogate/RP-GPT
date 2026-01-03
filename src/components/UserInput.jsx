@@ -49,7 +49,7 @@ export default function UserInput({ value, onChange, placeholder, onSend, eraseL
           }
         }}
       />
-      <div className="game-state" onBlur={stopEditing} onClick={startEditing} >
+      <div className="game-state" onBlur={stopEditing} >
         {
           isEditingState
           ?
@@ -59,7 +59,7 @@ export default function UserInput({ value, onChange, placeholder, onSend, eraseL
             onChange={(e) => setDayAndDate(e.target.value)}
           />
           :
-          <span>{dayAndDate}</span>
+          <span onClick={startEditing} >{dayAndDate}</span>
         }
         {
           isEditingState
@@ -70,7 +70,7 @@ export default function UserInput({ value, onChange, placeholder, onSend, eraseL
             onChange={(e) => setTimeOfDay(e.target.value)}
           />
           :
-          <span>{timeOfDay}</span>
+          <span onClick={startEditing} >{timeOfDay}</span>
         }
         <div className="user-input-icons">
           <InputIcon icon={InputIconEnum.SEND} onClick={onSend} />
