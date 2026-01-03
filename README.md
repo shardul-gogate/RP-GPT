@@ -1,8 +1,8 @@
-# AI Game Master
+# RP-GPT (The AI Game Master)
 
 **Live out your own text-based adventures, powered by AI.**
 
-AI Game Master is a browser-based application that uses Ollama, Node.js, and React to create a dynamic and interactive text-adventure experience. Craft your own world, define the story, and let the AI guide you through your unique journey.
+RP-GPT is a browser-based application that uses Ollama, Node.js, and React to create a dynamic and interactive text-adventure experience. Craft your own world, define the story, and let the AI guide you through your unique journey.
 
 ## How It Works
 
