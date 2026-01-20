@@ -264,12 +264,13 @@ body {
 }
 
 .large-modal {
+    overflow: auto;
     display: flex;
     flex-direction: column;
     gap: 18px;
     background-color: var(--background-color);
-    width: 80%;
-    height: 80%;
+    width: 85%;
+    height: 85%;
     border-radius: 18px;
     padding: 18px 18px;
 }
@@ -487,8 +488,29 @@ body {
     color: var(--text-color);
 }
 
+.summary-label span {
+    font-size: 21px;
+    margin-right: 18px;
+}
+
+.summary-label button {
+    margin-left: 18px;
+    width: 10%;
+}
+
+.summary-label {
+    display: flex;
+    justify-content: center;
+}
+
+.settings-instructions-div {
+    display: flex;
+    flex-direction: row;
+}
+
 .settings-system-instructions {
     width: 80%;
+    min-height: 210px;
     align-self: center;
     font-size: 21px;
     line-height: var(--line-height);
@@ -503,6 +525,10 @@ body {
 
 .settings-system-instructions:focus {
     outline: 1px solid var(--primary-accent-color);
+}
+
+.settings-system-instructions:disabled {
+    outline: none;
 }
 
 .settings-save-button {

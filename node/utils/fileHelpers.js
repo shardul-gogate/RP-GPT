@@ -6,7 +6,8 @@ export const getGameFilesToCopy = () => {
         "plotpoints.json",
         "progress.json",
         "quests.json",
-        "ollamasettings.json"
+        "ollamasettings.json",
+        "summary.json"
     ];
 };
 

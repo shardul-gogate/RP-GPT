@@ -11,7 +11,8 @@ export const IconButtonEnum = {
     QUICK_SAVE: "quicksave",
     FULL_SAVE: "fullsave",
     LOAD: "load",
-    CLOSE: "close"
+    CLOSE: "close",
+    SUMMARIZE: "summarize"
 };
 
 export const InputIconEnum = {
@@ -39,5 +40,6 @@ export const SmallModalTypEnum = {
 export const LargeModalTypeEnum = {
   SETTINGS: "settings",
   QUESTS: "quests",
-  PLOT_POINTS: "plotpoints"
+  PLOT_POINTS: "plotpoints",
+  SUMMARIZE: "summarize"
 }

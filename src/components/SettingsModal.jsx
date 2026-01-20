@@ -4,11 +4,13 @@ import { useState } from 'react';
 
 export default function SettingsModal({ settings, saveSettings, ollamaModels, closeModal}) {
   const [ollamaModel, setOllamaModel] = useState(settings.ollamaModel);
+  const [summaryModel, setSummaryModel] = useState(settings.summaryModel);
   const [systemInstructions, setSystemInstructions] = useState(settings.systemInstructions);
+  const [summaryInstructions, setSummaryInstructions] = useState(settings.summaryInstructions);
   const [options, setOptions] = useState(settings.options);
 
   const handleSave = () => {
-    saveSettings({ ollamaModel, systemInstructions, options });
+    saveSettings({ ollamaModel, summaryModel, systemInstructions, summaryInstructions, options });
     closeModal();
   };
 
@@ -29,12 +31,29 @@ export default function SettingsModal({ settings, saveSettings, ollamaModels, cl
             }
           </select>
         </div>
+        <div className='settings-ollama'>
+          <span>Select Summary Model: </span>
+          <select value={summaryModel} onChange={(e) => setSummaryModel(e.target.value)}>
+            {
+              ollamaModels.map(model => (
+                <option key={model.model} value={model.model}>{model.model}</option>
+              ))
+            }
+          </select>
+        </div>
         <textarea
           className='settings-system-instructions'
           rows={10}
           value={systemInstructions}
           onChange={(e) => setSystemInstructions(e.target.value)}
           placeholder='System Instructions'
+        />
+        <textarea
+          className='settings-system-instructions'
+          rows={10}
+          value={summaryInstructions}
+          onChange={(e) => setSummaryInstructions(e.target.value)}
+          placeholder='Summary Instructions'
         />
         <div className='settings-ollama'>
           <span>temperature: </span>

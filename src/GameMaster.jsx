@@ -6,6 +6,7 @@ import { useGameState } from "./hooks/useGameState";
 import { useQuests } from "./hooks/useQuests";
 import { usePlotPoints } from "./hooks/usePlotPoints";
 import { useFullSave } from "./hooks/useFullSave";
+import { useSummary } from "./hooks/useSummary";
 import TopAppBar from "./components/TopAppBar";
 import { useSmallModal } from "./hooks/useSmallModal";
 import { useLargeModal } from "./hooks/useLargeModal";
@@ -16,14 +17,16 @@ import QuestsModal from "./components/QuestsModal";
 import SettingsModal from "./components/SettingsModal";
 import { useOllama } from "./hooks/useOllama";
 import { useSettings } from "./hooks/useSettings";
-import { buildAIPrompt } from "./utils/buildPrompt";
+import { buildGamePrompt, buildSummary, buildSummaryPrompt } from "./utils/prompt";
 import { ApiPaths } from "./utils/constants";
 import api from "./utils/api";
 import LoadingIndicator from "./components/LoadingIndicator";
+import SummaryModal from "./components/SummaryModal";
 
 export default function GameMaster() {
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState([]);
+  const [latestSummary, setLatestSummary] = useState("");
 
   useEffect(() => { api.get(ApiPaths.Api_Progress).then((data) => setMessages(data)); }, []);
 
@@ -34,6 +37,7 @@ export default function GameMaster() {
   const { saveHistory } = useGameProgress();
   const { models, generateStream, loading } = useOllama();
   const { settings, saveSettings } = useSettings(models);
+  const { summary, saveSummary, generateSummary } = useSummary();
 
   const {
     isSmallModalOpen,
@@ -65,23 +69,33 @@ export default function GameMaster() {
     const newMessages = [...messages, prompt, ""];
     setMessages(newMessages);
     setPrompt("");
-    const builtPrompt = buildAIPrompt([...messages, prompt], quests, plotPoints, gameState);
+    const builtPrompt = buildGamePrompt(summary, [...messages, prompt], quests, plotPoints, gameState);
     generateStream(builtPrompt, settings, handleStream);
   }
 
   const handleRetry = () => {
     const newMessages = messages.slice(0, -1);
     setMessages([...newMessages, ""]);
-    const builtPrompt = buildAIPrompt(newMessages, quests, plotPoints, gameState);
+    const builtPrompt = buildGamePrompt(summary, newMessages, quests, plotPoints, gameState);
     generateStream(builtPrompt, settings, handleStream);
   };
 
   const handleContinue = () => {
     const newMessages = [...messages, ""];
     setMessages(newMessages);
-    const builtPrompt = buildAIPrompt(messages, quests, plotPoints, gameState)
+    const builtPrompt = buildGamePrompt(summary, messages, quests, plotPoints, gameState)
     generateStream(builtPrompt, settings, handleStream);
   };
+
+  const handleSaveSummary = () => {
+    const newSummary = [...summary, {lastIndex: messages.length - 1, text: latestSummary}]
+    saveSummary(newSummary)
+    setLatestSummary("")
+  }
+
+  const handleGenerateSummary = () => {
+    generateSummary(buildSummaryPrompt(summary, messages), settings, (data) => {setLatestSummary(data)})
+  }
 
   return (
     <>
@@ -143,6 +157,16 @@ export default function GameMaster() {
           settings={settings}
           saveSettings={saveSettings}
           ollamaModels={models}
+          closeModal={closeLargeModal}
+        />
+      }
+      {
+        isLargeModalOpen && largeModalTypeEnum === LargeModalTypeEnum.SUMMARIZE &&
+        <SummaryModal
+          summary={buildSummary(summary)}
+          latestSummary={latestSummary}
+          saveSummary={handleSaveSummary}
+          generateNewSummary={handleGenerateSummary}
           closeModal={closeLargeModal}
         />
       }

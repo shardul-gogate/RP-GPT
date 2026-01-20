@@ -29,8 +29,8 @@ export function useOllama() {
       buffer += chunk;
       let boundary = buffer.lastIndexOf('\n');
       if (boundary !== -1) {
-        let Tocomplete = buffer.substring(0, boundary);
-        const jsons = Tocomplete.split('\n').filter(s => s.trim());
+        let toComplete = buffer.substring(0, boundary);
+        const jsons = toComplete.split('\n').filter(s => s.trim());
         for (const json of jsons) {
           try {
             const parsed = JSON.parse(json);
@@ -55,7 +55,6 @@ export function useOllama() {
       setLoading(false);
     }
   }
-
 
   return { models, generateStream, loading };
 }

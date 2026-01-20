@@ -9,6 +9,7 @@ import registerProgress from "./routes/progress.js";
 import registerFullSave from "./routes/fullSave.js";
 import registerOllama from "./routes/ollama.js";
 import registerSettings from "./routes/settings.js";
+import registerSummary from "./routes/summary.js";
 
 const app = express();
 app.use(cors());
@@ -22,6 +23,7 @@ registerGameState(app);
 registerProgress(app);
 registerFullSave(app);
 registerSettings(app);
+registerSummary(app);
 
 
 app.listen(3001, () => console.log("Node server listening on port http://localhost:3001"));
