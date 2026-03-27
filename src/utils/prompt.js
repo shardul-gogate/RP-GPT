@@ -39,8 +39,9 @@ const getTriggeredPlotPoints = (plotPoints, textToScan) => {
   .filter(plotPoint => (plotPoint.sample === undefined || !plotPoint.sample))
   .filter(plotPoint =>
     plotPoint.triggers.some(trigger => {
-      const pattern = new RegExp(`\\b${trigger}\\b`, "i"); // word boundary, case-insensitive
-      return pattern.test(textToScan);
+      const pattern = new RegExp(`\\b${trigger}\\b`, "ig"); // word boundary, case-insensitive, global
+      const matches = textToScan.match(pattern);
+      return matches && matches.length >= 2;
     })
   );
 }
@@ -63,8 +64,8 @@ const buildGamePrompt = (summary, messages, quests, plotPoints, gameState) => {
     summaryText = buildSummary(summary);
   }
   const contextMessages = summaryText
-    ? getContextMessages(messages.slice(summary[summary.length - 1].lastIndex - 3), 1500).join(" ")
-    : getContextMessages(messages.slice(0, -1), 4500).join(" ");
+    ? getContextMessages(messages.slice(summary[summary.length - 1].lastIndex - 3), 2000).join(" ")
+    : getContextMessages(messages.slice(0, -1), 4000).join(" ");
   const latestInput = messages.slice(-1)[0].trim();
   const activeQuestsText = getActiveQuestsText(quests);
 
@@ -74,15 +75,15 @@ const buildGamePrompt = (summary, messages, quests, plotPoints, gameState) => {
   const plotPointText = triggeredPlotPoints.map(plotPoint => `- ${plotPoint.description}`).join("\n");
 
   const prompt = `
-  Previous story summary: ${summaryText}
-  ${activeQuestsText ? `\nActive Quests:
-  ${activeQuestsText}` : ''}
-  ${plotPointText ? `\nRelevant Context:
-  ${plotPointText}` : ''}
-  Day and Time: ${gameState.dayAndDate} - ${gameState.timeOfDay}
-  Story: ${contextMessages}
-  Prompt: ${latestInput}
-  `;
+${summaryText ? `Previous story summary: ${summaryText}` : ''}
+${activeQuestsText ? `\nActive Quests:
+${activeQuestsText}` : ''}
+${plotPointText ? `\nRelevant Context:
+${plotPointText}` : ''}
+Day and Time: ${gameState.dayAndDate} - ${gameState.timeOfDay}
+Story: ${contextMessages}
+Prompt: ${latestInput}
+`;
   console.log(prompt);
   return prompt;
 }

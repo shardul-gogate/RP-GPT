@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ApiPaths } from "../utils/constants";
 import api from "../utils/api";
+import { QuestStatusEnum } from "../utils/enums";
 
 export function useQuests() {
   const [quests, setQuests] = useState([]);
@@ -13,7 +14,7 @@ export function useQuests() {
   const addNewQuest = (index) => {
     setQuests(prev => {
       const newQuests = [...prev];
-      newQuests.splice(index, 0, { name: "", status: "", description: "", objectives: [], sample: false });
+      newQuests.splice(index, 0, { name: "", status: QuestStatusEnum.ACTIVE, description: "", objectives: [], sample: false });
       return newQuests;
     });
   };

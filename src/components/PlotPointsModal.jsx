@@ -41,7 +41,9 @@ export default function PlotPointsModal ({ closeModal, plotPoints, addPlotPoint,
         <div className="cards-grid">
           {
             plotPoints.map((plotPoint, index) => (
-              plotPoint.description.toLowerCase().includes(filter.toLowerCase()) && (
+              (
+                plotPoint.description.toLowerCase().includes(filter.toLowerCase())
+                || plotPoint.triggers.join(", ").toLowerCase().includes(filter.toLowerCase())) && (
                 isEditing && editingIndex === index ? (
                   <EditPlotPointCard
                     key={index}
