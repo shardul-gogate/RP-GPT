@@ -36,14 +36,22 @@ const getActiveQuestsText = (quests) => {
 
 const getTriggeredPlotPoints = (plotPoints, textToScan) => {
   return plotPoints
-  .filter(plotPoint => (plotPoint.sample === undefined || !plotPoint.sample))
-  .filter(plotPoint =>
-    plotPoint.triggers.some(trigger => {
-      const pattern = new RegExp(`\\b${trigger}\\b`, "ig"); // word boundary, case-insensitive, global
-      const matches = textToScan.match(pattern);
-      return matches && matches.length >= 2;
-    })
-  );
+    .filter(plotPoint => (plotPoint.sample === undefined || !plotPoint.sample))
+    .filter(plotPoint => {
+      let matchedTriggerCount = 0;
+      for (const trigger of plotPoint.triggers) {
+        const escapedTrigger = trigger.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const pattern = new RegExp(escapedTrigger, "ig"); // case-insensitive substring match
+        const matches = textToScan.match(pattern);
+        if (matches && matches.length >= 2) {
+          return true;
+        }
+        if (matches && matches.length === 1) {
+          matchedTriggerCount += 1;
+        }
+      }
+      return matchedTriggerCount >= 2;
+    });
 }
 
 const buildSummary = (summary) => {
@@ -64,8 +72,8 @@ const buildGamePrompt = (summary, messages, quests, plotPoints, gameState) => {
     summaryText = buildSummary(summary);
   }
   const contextMessages = summaryText
-    ? getContextMessages(messages.slice(summary[summary.length - 1].lastIndex - 3), 2000).join(" ")
-    : getContextMessages(messages.slice(0, -1), 4000).join(" ");
+    ? getContextMessages(messages.slice(summary[summary.length - 1].lastIndex - 4, -1), 1500).join(" ")
+    : getContextMessages(messages.slice(0, -1), 2500).join(" ");
   const latestInput = messages.slice(-1)[0].trim();
   const activeQuestsText = getActiveQuestsText(quests);
 
@@ -76,12 +84,15 @@ const buildGamePrompt = (summary, messages, quests, plotPoints, gameState) => {
 
   const prompt = `
 ${summaryText ? `Previous story summary: ${summaryText}` : ''}
+
+Story: ${contextMessages}
 ${activeQuestsText ? `\nActive Quests:
 ${activeQuestsText}` : ''}
 ${plotPointText ? `\nRelevant Context:
 ${plotPointText}` : ''}
+
 Day and Time: ${gameState.dayAndDate} - ${gameState.timeOfDay}
-Story: ${contextMessages}
+
 Prompt: ${latestInput}
 `;
   console.log(prompt);

@@ -28,7 +28,8 @@ export default function register(app) {
         prompt,
         system,
         options,
-        stream: true
+        stream: true,
+        think: false
       };
 
       res.setHeader('Content-Type', 'application/json');
