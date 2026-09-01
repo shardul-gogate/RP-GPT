@@ -7,7 +7,8 @@ export function usePlotPoints() {
 
   useEffect(() => {
     api.get(ApiPaths.Api_PlotPoints)
-      .then((data) => setPlotPoints(data));
+      .then((data) => setPlotPoints(data))
+      .catch(() => {});
   }, []);
 
   const addPlotPoint = (index) => {
@@ -22,14 +23,14 @@ export function usePlotPoints() {
     const currentPlotPoints = [...plotPoints];
     currentPlotPoints[index] = updatedPlotPoint;
     setPlotPoints(currentPlotPoints);
-    api.post(ApiPaths.Api_PlotPoints, currentPlotPoints);
+    api.post(ApiPaths.Api_PlotPoints, currentPlotPoints).catch(() => {});
   };
 
   const deletePlotPoint = (index) => {
     const currentPlotPoints = [...plotPoints];
     currentPlotPoints.splice(index, 1);
     setPlotPoints(currentPlotPoints);
-    api.post(ApiPaths.Api_PlotPoints, currentPlotPoints);
+    api.post(ApiPaths.Api_PlotPoints, currentPlotPoints).catch(() => {});
   };
 
 

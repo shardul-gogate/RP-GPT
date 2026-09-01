@@ -8,8 +8,10 @@ export function useOllama() {
 
   useEffect(() => {
     async function fetchModels() {
-      const data = await api.get(ApiPaths.Api_Ollama_Models);
-      setModels(data);
+      try {
+        const data = await api.get(ApiPaths.Api_Ollama_Models);
+        setModels(data);
+      } catch {}
     }
     fetchModels();
   }, []);

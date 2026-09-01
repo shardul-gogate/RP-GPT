@@ -12,12 +12,13 @@ export function useGameState() {
           dayAndDate: data.dayAndDate,
           timeOfDay: data.timeOfDay,
         });
-      });
+      })
+      .catch(() => {});
   }, []);
 
   const updateGameState = (newState) => {
     setGameState(newState);
-    api.post(ApiPaths.Api_GameState, newState);
+    api.post(ApiPaths.Api_GameState, newState).catch(() => {});
   };
 
   return { gameState, updateGameState };

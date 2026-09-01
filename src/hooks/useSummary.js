@@ -8,12 +8,12 @@ export function useSummary() {
   useEffect(() => {
     api.get(ApiPaths.Api_Summary).then((data) => {
       setSummary(data);
-    });
+    }).catch(() => {});
   }, []);
 
   const saveSummary = (newSummary) => {
     setSummary(newSummary);
-    api.post(ApiPaths.Api_Summary, newSummary);
+    api.post(ApiPaths.Api_Summary, newSummary).catch(() => {});
   };
 
   async function generateSummary(prompt, settings, onGenerate) {
