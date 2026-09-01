@@ -14,19 +14,20 @@ export function useSettings(availableModels = []) {
           if (!ollamModelExists || !summaryModelExists) {
             const correctedSettings = { ...data, ollamaModel: availableModels[0].model, summaryModel: availableModels[0].model};
             setSettings(correctedSettings);
-            api.post(ApiPaths.Api_Settings, correctedSettings);
+            api.post(ApiPaths.Api_Settings, correctedSettings).catch(() => {});
           } else {
             setSettings(data);
           }
         } else {
           setSettings(data);
         }
-      });
+      })
+      .catch(() => {});
   }, [availableModels]);
 
   const saveSettings = (newSettings) => {
     setSettings(newSettings);
-    api.post(ApiPaths.Api_Settings, newSettings);
+    api.post(ApiPaths.Api_Settings, newSettings).catch(() => {});
   };
 
   return { settings, saveSettings };

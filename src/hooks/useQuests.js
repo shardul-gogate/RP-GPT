@@ -8,7 +8,8 @@ export function useQuests() {
 
   useEffect(() => {
     api.get(ApiPaths.Api_Quests)
-      .then((data) => setQuests(data));
+      .then((data) => setQuests(data))
+      .catch(() => {});
   }, []);
 
   const addNewQuest = (index) => {
@@ -23,14 +24,14 @@ export function useQuests() {
     const newQuests = [...quests];
     newQuests[index] = updatedQuest;
     setQuests(newQuests);
-    api.post(ApiPaths.Api_Quests, newQuests);
+    api.post(ApiPaths.Api_Quests, newQuests).catch(() => {});
   };
 
   const deleteQuest = (index) => {
     const currentQuests = [...quests];
     currentQuests.splice(index, 1);
     setQuests(currentQuests);
-    api.post(ApiPaths.Api_Quests, currentQuests);
+    api.post(ApiPaths.Api_Quests, currentQuests).catch(() => {});
   };
 
   return { quests, addNewQuest, updateQuest, deleteQuest };

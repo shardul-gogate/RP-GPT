@@ -28,7 +28,7 @@ export default function GameMaster() {
   const [messages, setMessages] = useState([]);
   const [latestSummary, setLatestSummary] = useState("");
 
-  useEffect(() => { api.get(ApiPaths.Api_Progress).then((data) => setMessages(data)); }, []);
+  useEffect(() => { api.get(ApiPaths.Api_Progress).then((data) => setMessages(data)).catch(() => {}); }, []);
 
   const { gameState, updateGameState } = useGameState();  
   const { plotPoints, addPlotPoint, updatePlotPoint, deletePlotPoint } = usePlotPoints();
