@@ -17,7 +17,7 @@ const api = {
       .then(handleResponse)
       .catch(handleError);
   },
-  postStream: async (url, data, onChunk) => {
+  postStream: async (url, data, onChunk, signal) => {
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -25,6 +25,7 @@ const api = {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
+        signal,
       });
 
       if (!response.ok) {
@@ -44,6 +45,9 @@ const api = {
         onChunk(chunk);
       }
     } catch (error) {
+      if (error.name === 'AbortError') {
+        return;
+      }
       handleError(error);
     }
   },

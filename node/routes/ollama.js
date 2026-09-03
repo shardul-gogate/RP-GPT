@@ -1,6 +1,8 @@
 import ollama from 'ollama';
 import { ApiPaths, Ollama_Host_URL } from '../utils/constants.js';
 
+let activeStream = null;
+
 export default function register(app) {
   app.get(ApiPaths.Api_Ollama_Models, async (_req, res) => {
     try {
@@ -37,6 +39,7 @@ export default function register(app) {
       res.setHeader('Connection', 'keep-alive');
 
       const stream = await ollama.generate(payload);
+      activeStream = stream;
 
       for await (const chunk of stream) {
         res.write(JSON.stringify(chunk) + '\n');
@@ -58,6 +61,16 @@ export default function register(app) {
         console.error("An error occurred after headers were sent:", err);
         res.end(); // End the stream
       }
+    } finally {
+      activeStream = null;
     }
+  });
+
+  app.post(ApiPaths.Api_Ollama_Stop, (_req, res) => {
+    activeStream?.abort();
+    res.json({
+      ok: true,
+      message: 'Generation stopped',
+    });
   });
 }

@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '../utils/api';
 import { ApiPaths } from '../utils/constants';
 
 export function useOllama() {
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(false);
+  const abortControllerRef = useRef(null);
 
   useEffect(() => {
     async function fetchModels() {
@@ -19,6 +20,8 @@ export function useOllama() {
   async function generateStream(prompt, settings, onStream) {
     const { ollamaModel, systemInstructions, options } = settings;
     setLoading(true);
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     const payload = {
       prompt: prompt,
       model: ollamaModel,
@@ -39,9 +42,6 @@ export function useOllama() {
             if (parsed.response) {
               onStream(parsed.response);
             }
-            if (parsed.done) {
-              setLoading(false);
-            }
           } catch (e) {
             console.error("Failed to parse JSON chunk:", json, e);
           }
@@ -51,12 +51,19 @@ export function useOllama() {
     };
 
     try {
-      await api.postStream(ApiPaths.Api_Ollama_Generate_Stream, payload, onChunk);
+      await api.postStream(ApiPaths.Api_Ollama_Generate_Stream, payload, onChunk, controller.signal);
     } catch (e) {
       onStream("Error: " + e.message);
+    } finally {
       setLoading(false);
+      abortControllerRef.current = null;
     }
   }
 
-  return { models, generateStream, loading };
+  function stopGeneration() {
+    abortControllerRef.current?.abort();
+    api.post(ApiPaths.Api_Ollama_Stop, {}).catch(() => {});
+  }
+
+  return { models, generateStream, loading, stopGeneration };
 }

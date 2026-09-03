@@ -35,7 +35,7 @@ export default function GameMaster() {
   const { quests, addNewQuest, updateQuest, deleteQuest } = useQuests();
   const { saveFullGame, loadGame } = useFullSave();
   const { saveHistory } = useGameProgress();
-  const { models, generateStream, loading } = useOllama();
+  const { models, generateStream, loading, stopGeneration } = useOllama();
   const { settings, saveSettings } = useSettings(models);
   const { summary, saveSummary, generateSummary } = useSummary();
 
@@ -115,7 +115,7 @@ export default function GameMaster() {
         />
         {
           loading ?
-          <LoadingIndicator />
+          <LoadingIndicator onStop={stopGeneration} />
           :
           <UserInput
             value={prompt}

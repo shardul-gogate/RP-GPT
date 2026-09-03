@@ -553,6 +553,17 @@ body {
     justify-content: center;
     align-items: center;
     height: 180px;
+    width: 100%;
+    position: relative;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.loading-indicator-stop-icon {
+    position: absolute;
+    color: var(--text-color);
 }
 
 .loading-indicator:after {

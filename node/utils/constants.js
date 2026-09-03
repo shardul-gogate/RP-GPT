@@ -20,6 +20,7 @@ const Api_FullSave = Api_Base + "fullsave";
 const Api_LoadGame = Api_Base + "loadgame";
 const Api_Ollama_Models = Api_Base + "ollama/models";
 const Api_Ollama_Generate_Stream = Api_Base + "ollama/generate-stream";
+const Api_Ollama_Stop = Api_Base + "ollama/stop";
 const Api_Settings = Api_Base + "settings";
 const Api_Summary = Api_Base + "summary";
 const Api_Generate_Summary = Api_Summary + "/generate";
@@ -42,6 +43,7 @@ export const ApiPaths = {
     Api_LoadGame,
     Api_Ollama_Models,
     Api_Ollama_Generate_Stream,
+    Api_Ollama_Stop,
     Api_Settings,
     Api_Summary,
     Api_Generate_Summary
